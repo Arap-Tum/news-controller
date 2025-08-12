@@ -5,3 +5,13 @@ export const createArticle = (articleData) => axios.post("/articles", articleDat
 export const updateArticle = (id, articleData) => axios.put(`/articles/${id}`, articleData);
 export const deleteArticle = (id) => axios.delete(`/articles/${id}`);
 export const getArticleById = (id) => axios.get(`/articles/${id}`); 
+
+
+export const getMyArticles = () => {
+  const token = localStorage.getItem("token");
+  return axios.get("/articles/my-articles", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
