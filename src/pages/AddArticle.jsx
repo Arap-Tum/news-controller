@@ -13,12 +13,21 @@ export const AddArticle = ({user}) => {
 
 const handleCreateArticle = async (formData) => {
   try{
-    const response = await createArticle({ ...formData, authorId: user.id });
+    if (!user || !user.id) {
+      console.error("User is not authenticated");
+      return;
+    }
+
+    // Add author Id
+    formData.append('authorId', user.id);
+
+    const response = await createArticle(formData);
     console.log("Article created successfully:", response.data);
-    // Optionally, redirect or update state to reflect the new article
+
     navigate('/author/home'); // Redirect to home or another page after creation
   } catch (error) {
     console.error("Error creating article:", error);
+    console.error("Error details:", error.response ? error.response.data : error.message);
   }
 }
   return (

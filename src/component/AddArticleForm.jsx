@@ -6,7 +6,7 @@ export const AddArticleForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
      title: "",
     content: "",
-    imageUrl: "",
+    image: null,
     categoryId: "",
     isTrending: false,
     isFeatured: false,
@@ -19,27 +19,41 @@ export const AddArticleForm = ({ onSubmit }) => {
       const response = await getCategories();
       setCategories(response.data);
     };
-    
+
     fetchCategories();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+ const handleChange = (e) => {
+  const { name, value, type, checked, files } = e.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  setFormData((prevData) => ({
+    ...prevData,
+  [name]: type === "checkbox" ? checked : type === "file" ? (files && files[0]) || null : value,
+  }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("content", formData.content);
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+    data.append("categoryId", formData.categoryId);
+    data.append("isTrending", formData.isTrending);
+    data.append("isFeatured", formData.isFeatured);
+
+      console.log("Form data submitted:", [...data.entries()]); // Debugging
+
+
+    onSubmit(data);
 
     setFormData({
         title: "",
     content: "",
-    imageUrl: "",
+    image: null,
     categoryId: "",
     isTrending: false,
     isFeatured: false,
@@ -87,6 +101,7 @@ export const AddArticleForm = ({ onSubmit }) => {
             value={formData.categoryId}
           onChange={handleChange}
         >
+  <option value="">Select a category</option>
           {categories.map(category => (
             <option key={category.id} value={category.id}>
               {category.name}
