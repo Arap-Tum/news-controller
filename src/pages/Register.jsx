@@ -1,9 +1,10 @@
 
 import { useState } from 'react';
 
+import { Loading } from '../component/Loading';
 
 
-const Register = ({onRegister}) => {
+const Register = ({onRegister, loading}) => {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
  
 
@@ -18,6 +19,10 @@ const Register = ({onRegister}) => {
 
   return (
     <div className="auth-container">
+      
+      {/* Loading Effect  */}
+      {loading && <Loading />}
+
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2 className="auth-title">Register</h2>
 

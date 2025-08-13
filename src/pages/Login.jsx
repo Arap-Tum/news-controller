@@ -1,7 +1,8 @@
 
 import { useState } from "react";
+import {Loading} from '../component/Loading'
 
-const Login = ({onLogin}) => {
+const Login = ({onLogin, loading}) => {
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -14,7 +15,9 @@ const Login = ({onLogin}) => {
   };
 
   return (
-    <div className="auth-container">
+
+         <div className="auth-container">
+           {loading && <Loading />}
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2 className="auth-title">Login</h2>
 
@@ -50,6 +53,8 @@ const Login = ({onLogin}) => {
         </p>
       </form>
     </div>
+
+   
   );
 };
 

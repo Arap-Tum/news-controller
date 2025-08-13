@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect} from 'react'
 import { useLocation } from 'react-router-dom'
 import { Hero } from '../component/Hero'
 import { ListOfNews } from '../component/ListOfNews'
@@ -8,7 +8,7 @@ import { getMyArticles } from '../api/articles'
 export const Home = ({ user }) => {
 
   const [articles, setArticles] = React.useState([]);
-
+ 
   const location = useLocation();
   const isNewUser = location.state?.isNewUser;
 

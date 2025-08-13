@@ -24,6 +24,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(null);
 
+
   // Navigation
   const navigate = useNavigate();
 
@@ -50,10 +51,10 @@ function App() {
   //Register
   const handleRegister = async (form) => {
     try {
-
+      setLoading(true)
     const response = await registerUser(form);
       localStorage.setItem('user', JSON.stringify(response.data)); // assume backend returns user
-      setUser(response.data);
+      // setUser(response.data);
       console.log("Registration successful:", response.data);
       navigate('/author/home', { state: { isNewUser: true } });
     } catch (error) {
@@ -62,6 +63,8 @@ function App() {
         "Registration failed:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -69,14 +72,15 @@ function App() {
   //login 
 const handleLogin = async(form) => {
   try {
+    setLoading(true)
      const response = await logInUser(form);
       const { token, user } = response.data;
-      console.log(response.data);
+      // console.log(response.data);
 
      localStorage.setItem("token", token);
      localStorage.setItem("user", JSON.stringify(user));
       // console.log("Login successful:", user);
-    setUser(user);
+    // setUser(user);
       navigate("/author/home");navigate('/author/home', { state: { isNewUser: false } });
   } catch (error) {
     console.error("Login error:", error);
@@ -84,8 +88,21 @@ const handleLogin = async(form) => {
         "Login failed:",
         error.response?.data?.message || error.message
       );
+  } finally {
+    setLoading(false)
   }
 }
+
+//Get User From local Storage 
+useEffect(() => {
+  const savedUser = localStorage.getItem('user');
+
+  if (savedUser) {
+    setUser(JSON.parse(savedUser))
+  } else {
+    console.log('User not saved in the local storage')
+  }
+},[])
 
 // Logout function
 const handleLogout = () => {
@@ -95,17 +112,25 @@ const handleLogout = () => {
   navigate("/");
 };
 
+
+
   return (
     <div className="App">
 
       <Header onLogout={handleLogout} />
 
       <Routes>
-        <Route path="/" element={<Login onLogin={handleLogin} />} />
-        <Route path='/register' element={<Register onRegister={handleRegister} />} />
+        <Route path="/" element={<Login onLogin={handleLogin} loading={loading}/>} />
+
+        <Route path='/register' element={<Register onRegister={handleRegister} loading={loading}
+        />} />
+
         <Route path="/author/home" element={<Home articles={articles} loading={loading} categories={categories} user={user} />} />
+
         <Route path="/add-article" element={<AddArticle user={user} />} />
+
         <Route path="/edit-article/:id" element={<EditArticle />} />
+        
         <Route path="/article/:id" element={<Article />} />
       </Routes>
       
