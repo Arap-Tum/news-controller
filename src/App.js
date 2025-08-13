@@ -80,17 +80,19 @@ function App() {
         error.response?.data?.message || error.message
       );
 
-      const backendMessage = error.response?.data?.message;
-    const friendlyMessage =
-      backendMessage === "Invalid credentials"
-        ? "Your email or password is incorrect."
-        : backendMessage || "Something went wrong. Please try again.";
+     const backendMessage =
+  error.response?.data?.message || error.response?.data?.error;
 
-    toast.error(friendlyMessage);
-  } finally {
-    setLoading(false);
+const friendlyMessage =
+  backendMessage === "Invalid credentials"
+    ? "Your email or password is incorrect."
+    : backendMessage || "Something went wrong. Please try again.";
+
+toast.error(friendlyMessage);
+    } finally {
+      setLoading(false)
+    }
   }
-}
 
 
   //login 
@@ -118,7 +120,8 @@ const handleLogin = async(form) => {
         "Login failed:",
         error.response?.data?.message || error.message
       );
-       const backendMessage = error.response?.data?.message;
+const backendMessage =
+  error.response?.data?.message || error.response?.data?.error;
     const friendlyMessage =
       backendMessage === "Invalid credentials"
         ? "Your email or password is incorrect."
