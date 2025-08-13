@@ -1,8 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import {toast, ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
+
+//iMPORT FROM CONTEXT
+import { useAuth } from './context/AuthContext';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -23,7 +29,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(null);
-
+  
+  //distructure 
+  const {login, register} = useAuth()
 
   // Navigation
   const navigate = useNavigate();
@@ -53,20 +61,36 @@ function App() {
     try {
       setLoading(true)
     const response = await registerUser(form);
-      localStorage.setItem('user', JSON.stringify(response.data)); // assume backend returns user
-      // setUser(response.data);
-      console.log("Registration successful:", response.data);
-      navigate('/author/home', { state: { isNewUser: true } });
-    } catch (error) {
-      console.error("Registration error:", error);
+    const user = response.data;
+
+    // Save user & token globally
+    register(user);
+
+    console.log("Registration successful:", user);
+
+   toast.success(`Welcome back, ${user.name || "User"}!`);
+    
+    navigate('/author/home', { state: { isNewUser: true } });
+
+
+  } catch (error) {
+    console.error("Registration error:", error);
       console.error(
         "Registration failed:",
         error.response?.data?.message || error.message
       );
-    } finally {
-      setLoading(false)
-    }
+
+      const backendMessage = error.response?.data?.message;
+    const friendlyMessage =
+      backendMessage === "Invalid credentials"
+        ? "Your email or password is incorrect."
+        : backendMessage || "Something went wrong. Please try again.";
+
+    toast.error(friendlyMessage);
+  } finally {
+    setLoading(false);
   }
+}
 
 
   //login 
@@ -77,19 +101,32 @@ const handleLogin = async(form) => {
       const { token, user } = response.data;
       // console.log(response.data);
 
-     localStorage.setItem("token", token);
-     localStorage.setItem("user", JSON.stringify(user));
+     // Save user & token globally
+      login(user, token);
+      
       // console.log("Login successful:", user);
-    // setUser(user);
+
+      //ShoW  SUCCESS NOTIFIACTIOn
+      toast.success(`Welcome back, ${user.name || "User"}!`);
+
       navigate("/author/home");navigate('/author/home', { state: { isNewUser: false } });
+
+
   } catch (error) {
     console.error("Login error:", error);
      console.error(
         "Login failed:",
         error.response?.data?.message || error.message
       );
+       const backendMessage = error.response?.data?.message;
+    const friendlyMessage =
+      backendMessage === "Invalid credentials"
+        ? "Your email or password is incorrect."
+        : backendMessage || "Something went wrong. Please try again.";
+
+    toast.error(friendlyMessage);
   } finally {
-    setLoading(false)
+    setLoading(false);
   }
 }
 
@@ -119,18 +156,19 @@ const handleLogout = () => {
 
       <Header onLogout={handleLogout} />
 
+      <ToastContainer  position="top-right" autoClose={3000} />
+
       <Routes>
         <Route path="/" element={<Login onLogin={handleLogin} loading={loading}/>} />
 
-        <Route path='/register' element={<Register onRegister={handleRegister} loading={loading}
-        />} />
+        <Route path='/register' element={<Register onRegister={handleRegister} loading={loading}/>} />
 
         <Route path="/author/home" element={<Home articles={articles} loading={loading} categories={categories} user={user} />} />
 
         <Route path="/add-article" element={<AddArticle user={user} />} />
 
         <Route path="/edit-article/:id" element={<EditArticle />} />
-        
+
         <Route path="/article/:id" element={<Article />} />
       </Routes>
       

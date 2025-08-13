@@ -1,11 +1,15 @@
 import React, { useEffect} from 'react'
 import { useLocation } from 'react-router-dom'
+
+import { useAuth } from '../context/AuthContext'
+
 import { Hero } from '../component/Hero'
 import { ListOfNews } from '../component/ListOfNews'
 
 import { getMyArticles } from '../api/articles'
 
-export const Home = ({ user }) => {
+export const Home = () => {
+  const { user } = useAuth(); // Get user from context
 
   const [articles, setArticles] = React.useState([]);
  
