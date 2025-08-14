@@ -1,8 +1,18 @@
 import axios from "./api";
 
 export const getArticles = () => axios.get("/articles");
-export const createArticle = (articleData) => axios.post("/articles", articleData);
+  export const getArticleById = (id) => axios.get(`/articles/${id}`); 
 
+export const createArticle = (formData, token) => {
+  return axios.post("/articles", formData, {
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    }
+    
+  });
+};
+ 
 
 export const updateArticle = (id, formData, token) =>
   axios.put(`/articles/${id}`, formData, {
@@ -11,9 +21,13 @@ export const updateArticle = (id, formData, token) =>
       "Content-Type": "multipart/form-data",
     },
   });
-  
-export const deleteArticle = (id) => axios.delete(`/articles/${id}`);
-export const getArticleById = (id) => axios.get(`/articles/${id}`); 
+
+export const deleteArticle = (id, token) =>
+  axios.delete(`/articles/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
 
 export const getMyArticles = () => {

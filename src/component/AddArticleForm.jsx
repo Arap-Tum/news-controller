@@ -12,6 +12,7 @@ export const AddArticleForm = ({ onSubmit }) => {
     isTrending: false,
     isFeatured: false,
   });
+const [preview, setPreview] = useState(null);
 
   const [categories, setCategories] = useState([]);
 
@@ -27,11 +28,19 @@ export const AddArticleForm = ({ onSubmit }) => {
  const handleChange = (e) => {
   const { name, value, type, checked, files } = e.target;
 
+  // Only set preview for file input
+  if (type === "file" && files && files.length > 0) {
+    setPreview(URL.createObjectURL(files[0])); 
+  }
+
   setFormData((prevData) => ({
     ...prevData,
-  [name]: type === "checkbox" ? checked : type === "file" ? (files && files[0]) || null : value,
+    [name]: type === "checkbox" ? checked 
+          : type === "file" ? (files && files[0]) || null 
+          : value,
   }));
-  };
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,7 +101,21 @@ export const AddArticleForm = ({ onSubmit }) => {
           name="image"
           onChange={handleChange}
           placeholder="Image"
-        />
+        /> 
+        {preview && (
+    <img
+      src={preview}
+      alt="Preview"
+      style={{
+        width: "80px",
+        height: "80px",
+        objectFit: "cover",
+        borderRadius: "4px",
+      }}
+    />
+  )}
+
+
       </div>
       <div className='form-group'>
         <label htmlFor="categoryId">Category</label>

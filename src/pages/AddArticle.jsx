@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useAuth } from "../context/AuthContext";
+
 import { AddArticleForm } from "../component/AddArticleForm";
 import { createArticle } from "../api/articles";
 import { Loading } from "../component/Loading";
@@ -12,9 +14,11 @@ export const AddArticle = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const {token } = useAuth();
+
   const handleCreateArticle = async (formData) => {
     try {
-      loading(true);
+      setLoading(true);
       if (!user || !user.id) {
         toast.error("User is not authenticated");
         return;
@@ -23,7 +27,7 @@ export const AddArticle = ({ user }) => {
       // Add author Id
       formData.append("authorId", user.id);
 
-      const response = await createArticle(formData);
+      const response = await createArticle(formData, token);
       console.log("Article created successfully:", response.data);
 
       toast.success("Article created successfully!");

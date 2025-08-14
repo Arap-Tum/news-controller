@@ -212,7 +212,7 @@ const handleLogout = () => {
 
         <Route path="/edit-article/:id" element={<EditArticle articles={articles} user={user} handleUpdate={handleUpdate} loading={loading}/>} />
 
-        <Route path="/article/:id" element={<Article articles={articles} loading={loading} />} />
+        <Route path="/article/:id" element={<Article articles={articles} loading={loading} setLoading={setLoading} />} />
       </Routes>
       
     </div>
