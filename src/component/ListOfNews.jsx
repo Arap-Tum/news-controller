@@ -12,7 +12,7 @@ export const ListOfNews = ({ articles }) => {
           <ul>
           {articles.map(article => (
             <li key={article.id}>
-              <Link to={`/articles/${article.id}`}>{article.title}</Link>
+              <Link to={`/article/${article.id}`}>{article.title}</Link>
             </li>
           ))}
         </ul>

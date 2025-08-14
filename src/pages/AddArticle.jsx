@@ -1,39 +1,58 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { AddArticleForm } from '../component/AddArticleForm';
-import { createArticle } from '../api/articles';
+import { AddArticleForm } from "../component/AddArticleForm";
+import { createArticle } from "../api/articles";
+import { Loading } from "../component/Loading";
 
-
-
-
-export const AddArticle = ({user}) => {
+export const AddArticle = ({ user }) => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-const handleCreateArticle = async (formData) => {
-  try{
-    if (!user || !user.id) {
-      console.error("User is not authenticated");
-      return;
+  const handleCreateArticle = async (formData) => {
+    try {
+      loading(true);
+      if (!user || !user.id) {
+        toast.error("User is not authenticated");
+        return;
+      }
+
+      // Add author Id
+      formData.append("authorId", user.id);
+
+      const response = await createArticle(formData);
+      console.log("Article created successfully:", response.data);
+
+      toast.success("Article created successfully!");
+
+      navigate("/author/home"); // Redirect to home or another page after creation
+    } catch (error) {
+      console.error("Error creating article:", error);
+      console.error(
+        "Error details:",
+        error.response ? error.response.data : error.message
+      );
+      const backendMessage =
+        error.response?.data?.message || error.response?.data?.error;
+
+      const friendlyMessage =
+        backendMessage === "Invalid credentials"
+          ? "Your email or password is incorrect."
+          : backendMessage || "Something went wrong. Please try again.";
+
+      toast.error(friendlyMessage);
+    } finally {
+      setLoading(false);
     }
-
-    // Add author Id
-    formData.append('authorId', user.id);
-
-    const response = await createArticle(formData);
-    console.log("Article created successfully:", response.data);
-
-    navigate('/author/home'); // Redirect to home or another page after creation
-  } catch (error) {
-    console.error("Error creating article:", error);
-    console.error("Error details:", error.response ? error.response.data : error.message);
-  }
-}
+  };
   return (
     <div>
+      {loading && <Loading />}
       <h2>Add Article</h2>
       <AddArticleForm onSubmit={handleCreateArticle} />
     </div>
-  )
-}
+  );
+};

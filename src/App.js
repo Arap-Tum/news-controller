@@ -19,7 +19,7 @@ import { EditArticle } from './pages/EditArticle';
 import { Article } from './pages/Article';
 
 // Importing API functions
-import { getArticles } from './api/articles'; // Adjust the import path as needed
+import { getArticleById, getArticles, updateArticle } from './api/articles'; // Adjust the import path as needed
 import { getCategories } from './api/categories'; // Adjust the import path as needed
 import { logInUser, registerUser } from './api/reg-logIn';
 
@@ -31,7 +31,7 @@ function App() {
   const [user, setUser] = useState(null);
   
   //distructure 
-  const {login, register} = useAuth()
+  const { login, register, token } = useAuth()
 
   // Navigation
   const navigate = useNavigate();
@@ -133,6 +133,46 @@ const backendMessage =
   }
 }
 
+//Update 
+ const handleUpdate = async (id, formData) => {
+    try {
+      setLoading(true);
+      const formDataWithId = new FormData();
+
+
+         // Copy over existing formData entries
+    for (const [key, value] of formData.entries()) {
+      formDataWithId.append(key, value);
+    }
+       // Add authorId
+    formDataWithId.append("authorId", user.id);
+
+    const res = await updateArticle(id, formDataWithId, token);
+
+      console.log("✅ Updated:", res.data);
+      toast.success("Article updated successfully!");
+     
+       // Refetch the updated article
+    const updated = await getArticleById(id);
+    setArticles((prev) =>
+      prev.map((a) => (a.id === id ? updated.data : a))
+    );
+
+    } catch (error) {
+      console.error("❌ Error updating article:", error);
+      const backendMessage =
+        error.response?.data?.message || error.response?.data?.error;
+      const friendlyMessage =
+        backendMessage === "Invalid credentials"
+          ? "Your email or password is incorrect."
+          : backendMessage || "Something went wrong. Please try again.";
+
+      toast.error(friendlyMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 //Get User From local Storage 
 useEffect(() => {
   const savedUser = localStorage.getItem('user');
@@ -170,9 +210,9 @@ const handleLogout = () => {
 
         <Route path="/add-article" element={<AddArticle user={user} />} />
 
-        <Route path="/edit-article/:id" element={<EditArticle />} />
+        <Route path="/edit-article/:id" element={<EditArticle articles={articles} user={user} handleUpdate={handleUpdate} loading={loading}/>} />
 
-        <Route path="/article/:id" element={<Article />} />
+        <Route path="/article/:id" element={<Article articles={articles} loading={loading} />} />
       </Routes>
       
     </div>

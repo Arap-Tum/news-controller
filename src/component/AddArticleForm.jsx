@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { getCategories } from '../api/categories';
 
 export const AddArticleForm = ({ onSubmit }) => {
+  
   const [formData, setFormData] = useState({
      title: "",
     content: "",
