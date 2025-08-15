@@ -10,11 +10,11 @@ import { AddArticleForm } from "../component/AddArticleForm";
 import { createArticle } from "../api/articles";
 import { Loading } from "../component/Loading";
 
-export const AddArticle = ({ user }) => {
+export const AddArticle = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const {token } = useAuth();
+  const {token , user} = useAuth();
 
   const handleCreateArticle = async (formData) => {
     try {

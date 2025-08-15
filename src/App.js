@@ -137,6 +137,12 @@ const backendMessage =
  const handleUpdate = async (id, formData) => {
     try {
       setLoading(true);
+
+       if (!user || !user.id) {
+              toast.error("User is not authenticated");
+              return;
+            }
+            
       const formDataWithId = new FormData();
 
 
