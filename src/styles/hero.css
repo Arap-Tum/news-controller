@@ -1,0 +1,96 @@
+/* ===== Hero Author Section ===== */
+.hero-author {
+  background: var(--gradient-background);
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--glass-shadow);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-author::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.hero-author > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Title & Subtitle ===== */
+.hero-title {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  color: var(--color-white);
+}
+
+.hero-name {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: var(--font-weight-bold);
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-sm);
+}
+
+/* ===== Actions ===== */
+.hero-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-medium);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Primary Gradient Button */
+.btn-primary {
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  border: none;
+  box-shadow: var(--glass-shadow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Secondary Glass Button */
+.btn-secondary {
+  background: var(--glass-bg);
+  color: var(--color-text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-secondary);
+  transform: translateY(-2px);
+}

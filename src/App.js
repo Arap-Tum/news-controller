@@ -29,8 +29,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(null);
-  
-  //distructure 
+
+  //destructure
   const { login, register, token } = useAuth()
 
   // Navigation
@@ -108,11 +108,10 @@ const handleLogin = async(form) => {
       
       // console.log("Login successful:", user);
 
-      //ShoW  SUCCESS NOTIFIACTIOn
+      // Show SUCCESS NOTIFICATION
       toast.success(`Welcome back, ${user.name || "User"}!`);
 
       navigate("/author/home");navigate('/author/home', { state: { isNewUser: false } });
-
 
   } catch (error) {
     console.error("Login error:", error);
@@ -203,7 +202,7 @@ const handleLogout = () => {
   return (
     <div className="App">
 
-      <Header onLogout={handleLogout} />
+      <Header  />
 
       <ToastContainer  position="top-right" autoClose={3000} />
 
@@ -212,7 +211,7 @@ const handleLogout = () => {
 
         <Route path='/register' element={<Register onRegister={handleRegister} loading={loading}/>} />
 
-        <Route path="/author/home" element={<Home articles={articles} loading={loading} categories={categories} user={user} />} />
+        <Route path="/author/home" element={<Home articles={articles} loading={loading} categories={categories} user={user} onLogout={handleLogout}/>}/>
 
         <Route path="/add-article" element={<AddArticle user={user} />} />
 

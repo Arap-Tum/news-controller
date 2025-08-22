@@ -14,7 +14,7 @@ export const AddArticle = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const {token , user} = useAuth();
+  const { token, user } = useAuth();
 
   const handleCreateArticle = async (formData) => {
     try {
@@ -53,10 +53,10 @@ export const AddArticle = () => {
     }
   };
   return (
-    <div>
+    <>
       {loading && <Loading />}
       <h2>Add Article</h2>
       <AddArticleForm onSubmit={handleCreateArticle} />
-    </div>
+    </>
   );
 };

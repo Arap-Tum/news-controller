@@ -1,10 +1,9 @@
-import React from 'react'
+import React from "react";
 
-export const Header = ({ onLogout }) => {
+export const Header = () => {
   return (
     <div>
-      <h1>News App</h1>
-      {onLogout && <button onClick={onLogout}>Logout</button>}
+      <h1>The Phathom Editing Room</h1>
     </div>
-  )
-}
+  );
+};

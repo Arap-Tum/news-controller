@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 
+import { Loading } from "../component/Loading";
 
-import {Loading} from '../component/Loading'
+import "../styles/landingPage.css";
 
-const Login = ({onLogin, loading}) => {
+const Login = ({ onLogin, loading }) => {
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -17,14 +17,13 @@ const Login = ({onLogin, loading}) => {
   };
 
   return (
-
-         <div className="auth-container">
-           {loading && <Loading />}
+    <div className="auth-container">
+      {loading && <Loading />}
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2 className="auth-title">Login</h2>
 
         <div className="form-group">
-          <label className="form-label">Email:</label>
+          <label className="form-label">Email</label>
           <input
             type="email"
             name="email"
@@ -36,7 +35,7 @@ const Login = ({onLogin, loading}) => {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Password:</label>
+          <label className="form-label">Password</label>
           <input
             type="password"
             name="password"
@@ -48,15 +47,14 @@ const Login = ({onLogin, loading}) => {
         </div>
 
         <button type="submit" className="auth-button">
-          Login
+          <span>Login</span>
         </button>
+
         <p className="auth-link">
           Don’t have an account? <a href="/register">Register</a>
         </p>
       </form>
     </div>
-
-   
   );
 };
 

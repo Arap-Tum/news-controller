@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: transparent;
+  z-index: 1000;
 }
 
 .spinner {

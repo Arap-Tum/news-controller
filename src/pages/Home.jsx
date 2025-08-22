@@ -1,18 +1,20 @@
-import React, { useEffect} from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from "../context/AuthContext";
 
-import { Hero } from '../component/Hero'
-import { ListOfNews } from '../component/ListOfNews'
+import { Hero } from "../component/Hero";
+import { ListOfNews } from "../component/ListOfNews";
 
-import { getMyArticles } from '../api/articles'
+import { getMyArticles } from "../api/articles";
 
-export const Home = () => {
+import "../styles/home.css";
+
+export const Home = ({ onLogout }) => {
   const { user } = useAuth(); // Get user from context
 
   const [articles, setArticles] = React.useState([]);
- 
+
   const location = useLocation();
   const isNewUser = location.state?.isNewUser;
 
@@ -21,7 +23,7 @@ export const Home = () => {
       try {
         const response = await getMyArticles();
         setArticles(response.data);
-        console.log("✅ My articles fetched successfully");
+        console.log("✅ My articles fetched successfully", response.data);
       } catch (error) {
         console.error("Error fetching my articles:", error);
         console.error("❌ My articles Error:", error.message);
@@ -30,30 +32,25 @@ export const Home = () => {
     };
 
     fetchMyArticles();
-
   }, []);
-
-
 
   return (
     <>
-    <div className="author-home">
-       <Hero 
-       name={user?.name || "Author Name"} // Replace with dynamic name if available
-       isNewUser={isNewUser}
-       />
-    
-<section className='authored-news'>
-  <h2>Your Articles</h2>   
-  <p>Here you can find all the articles you have authored.</p>
+      <div className="author-home">
+        {/* Hero Section */}
+        <Hero
+          name={user?.name || "Author Name"}
+          isNewUser={isNewUser}
+          onLogout={onLogout}
+        />
 
-
-
-  <ListOfNews articles={articles} />
-</section>
-
-    </div>
+        {/* Articles Section */}
+        <section className="authored-news">
+          <div className="articles-wrapper">
+            <ListOfNews articles={articles} />
+          </div>
+        </section>
+      </div>
     </>
-
-  )
-}
+  );
+};

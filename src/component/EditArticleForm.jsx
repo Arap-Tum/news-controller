@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../api/categories";
+import "../styles/form.css";
 
 export const EditArticleForm = ({ article, onSubmit, id }) => {
   const [formData, setFormData] = useState({});
@@ -36,22 +37,22 @@ export const EditArticleForm = ({ article, onSubmit, id }) => {
     }
   }, [article]);
 
- const handleChange = (e) => {
-  const { name, value, type, checked, files } = e.target;
-  
-  if (type === "file" && files && files[0]) {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: files[0],
-    }));
-    setPreview(URL.createObjectURL(files[0])); // show new image preview
-  } else {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  }
-};
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+
+    if (type === "file" && files && files[0]) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: files[0],
+      }));
+      setPreview(URL.createObjectURL(files[0])); // show new image preview
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -68,13 +69,14 @@ export const EditArticleForm = ({ article, onSubmit, id }) => {
 
     onSubmit(data);
 
-     navigate(`/article/${id}`);
+    navigate(`/article/${id}`);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="title">Title</label>
+    <div className="article-form">
+      {/* LEFT PANEL - Editor */}
+      <div className="editor-panel">
+        {/* Title */}
         <input
           id="title"
           name="title"
@@ -83,80 +85,96 @@ export const EditArticleForm = ({ article, onSubmit, id }) => {
           placeholder="Title"
           required
         />
-      </div>
-      <div className="form-group">
-        <label htmlFor="content">Content</label>
-        <textarea
-          id="content"
-          name="content"
-          value={formData.content}
-          onChange={handleChange}
-          placeholder="Content"
-          required
-        />
-      </div>
-     <div className="form-group">
-  <label htmlFor="imageUrl">Upload Image </label>
-  <input
-    type="file"
-    id="imageUrl"
-    name="image"
-    onChange={handleChange}
-  />
-  
-  {preview && (
-    <img
-      src={preview}
-      alt="Preview"
-      style={{
-        width: "80px",
-        height: "80px",
-        objectFit: "cover",
-        borderRadius: "4px",
-      }}
-    />
-  )}
-</div>
 
-      <div className="form-group">
-        <label htmlFor="categoryId">Category</label>
-        <select
-          id="categoryId"
-          name="categoryId"
-          value={formData.categoryId}
-          onChange={handleChange}
-        >
-          <option value="">Select a category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <label htmlFor="isTrending">
-          <input
-            type="checkbox"
-            name="isTrending"
-            checked={formData.isTrending}
+        {/* Mini Editor */}
+        <div className="mini-editor">
+          {/* Toolbar (bold, italic, etc.) */}
+          <div className="editor-toolbar"></div>
+
+          {/* Textarea */}
+          <textarea
+            id="content"
+            name="content"
+            value={formData.content}
             onChange={handleChange}
-          />{" "}
-          Trending
-        </label>
+            placeholder="Content"
+            required
+          />
+        </div>
+
+        {/* Submit Button */}
+        <button onClick={handleSubmit}>Publish</button>
       </div>
-      <div className="form-group">
-        <label htmlFor="isFeatured">
-          <input
-            type="checkbox"
-            name="isFeatured"
-            checked={formData.isFeatured}
+
+      {/* RIGHT PANEL - Sidebar Options */}
+      <div className="sidebar-panel">
+        {/* Category */}
+        <div className="sidebar-section">
+          <label>Category</label>
+          <select
+            id="categoryId"
+            name="categoryId"
+            value={formData.categoryId}
             onChange={handleChange}
-          />{" "}
-          Featured
-        </label>
+          >
+            <option value="">Select...</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="sidebar-section">
+          <label htmlFor="imageUrl">Upload Image </label>
+          <input
+            type="file"
+            id="imageUrl"
+            name="image"
+            onChange={handleChange}
+          />
+
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              style={{
+                width: "80px",
+                height: "80px",
+                objectFit: "cover",
+                borderRadius: "4px",
+              }}
+            />
+          )}
+        </div>
+
+        {/* Trending */}
+        <div className="sidebar-section">
+          <label>
+            <input
+              type="checkbox"
+              name="isTrending"
+              checked={formData.isTrending}
+              onChange={handleChange}
+            />{" "}
+            Trending
+          </label>
+        </div>
+
+        {/* Featured */}
+        <div className="sidebar-section">
+          <label>
+            <input
+              type="checkbox"
+              name="isFeatured"
+              checked={formData.isFeatured}
+              onChange={handleChange}
+            />{" "}
+            Featured
+          </label>
+        </div>
       </div>
-      <button type="submit">Edit Article</button>
-    </form>
+    </div>
   );
 };

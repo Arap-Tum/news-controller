@@ -1,0 +1,297 @@
+/* Mobile First Article Form Layout */
+.article-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  font-family: var(--font-primary);
+  background: var(--bg-primary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}
+
+/* Editor Panel - Mobile First */
+.editor-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  order: 1;
+}
+
+/* Title Input - Mobile Optimized */
+.editor-panel input#title {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border 0.2s;
+  width: 100%;
+  min-height: 44px; /* Touch-friendly */
+}
+
+.editor-panel input#title:focus {
+  border: 1px solid #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Mini Editor */
+.mini-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Toolbar - Mobile Optimized */
+.editor-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.editor-toolbar button {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  padding: 0.625rem 1rem;
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  transition: all 0.2s;
+  min-height: 44px; /* Touch-friendly */
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-toolbar button:hover {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+.editor-toolbar button:active {
+  transform: translateY(0);
+}
+
+/* Textarea - Mobile Optimized */
+.mini-editor textarea {
+  min-height: 250px;
+  padding: 1rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  background: var(--bg-card);
+  resize: vertical;
+  font-size: 1rem;
+  line-height: 1.6;
+  outline: none;
+  width: 100%;
+}
+
+.mini-editor textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Publish Button - Mobile Optimized */
+.editor-panel > button {
+  align-self: stretch; /* Full width on mobile */
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 48px; /* Touch-friendly */
+  font-size: 1rem;
+}
+
+.editor-panel > button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.editor-panel > button:active {
+  transform: translateY(0);
+}
+
+/* Sidebar Panel - Mobile First */
+.sidebar-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  order: 2;
+}
+
+/* Sidebar Sections - Mobile Optimized */
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-primary);
+}
+
+.sidebar-section label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Form Controls - Touch-Friendly */
+.sidebar-section select,
+.sidebar-section input[type="file"] {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  background: var(--bg-card);
+  font-size: 1rem;
+  outline: none;
+  min-height: 44px; /* Touch-friendly */
+  width: 100%;
+}
+
+.sidebar-section select:focus,
+.sidebar-section input[type="file"]:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* File Input Special Styling */
+.sidebar-section input[type="file"] {
+  cursor: pointer;
+  border: 2px dashed var(--border-primary);
+  background: var(--bg-secondary);
+}
+
+.sidebar-section input[type="file"]:hover {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* Checkboxes - Mobile Optimized */
+.sidebar-section label:has(input[type="checkbox"]) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.875rem;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  min-height: 44px; /* Touch-friendly */
+  margin: 0;
+}
+
+.sidebar-section label:has(input[type="checkbox"]):hover {
+  background: var(--bg-secondary);
+}
+
+.sidebar-section input[type="checkbox"] {
+  accent-color: #6366f1;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Tablet Layout - 768px and up */
+@media (min-width: 768px) {
+  .article-form {
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+  
+  .editor-panel,
+  .sidebar-panel {
+    padding: 1.5rem;
+  }
+  
+  .editor-panel input#title {
+    font-size: 1.5rem;
+  }
+  
+  .mini-editor textarea {
+    min-height: 300px;
+  }
+  
+  .editor-panel > button {
+    align-self: flex-start; /* Back to auto-width */
+    min-width: 120px;
+  }
+}
+
+/* Desktop Layout - 1024px and up */
+@media (min-width: 1024px) {
+  .article-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start;
+  }
+  
+  .editor-panel {
+    order: 0;
+    gap: 1.5rem;
+  }
+  
+  .sidebar-panel {
+    order: 0;
+    position: sticky;
+    top: 2rem;
+  }
+  
+  .editor-panel input#title {
+    font-size: 1.75rem;
+  }
+  
+  .mini-editor textarea {
+    min-height: 400px;
+  }
+  
+  .sidebar-section {
+    padding: 1.25rem;
+  }
+}
+
+/* Large Desktop - 1200px and up */
+@media (min-width: 1200px) {
+  .article-form {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem;
+  }
+  
+  .editor-panel input#title {
+    font-size: 2rem;
+  }
+  
+  .mini-editor textarea {
+    min-height: 500px;
+  }
+}
+
+/* Focus States for Accessibility */
+*:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}

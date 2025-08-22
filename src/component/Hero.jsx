@@ -1,13 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-export const Hero = ({ name, isNewUser }) => {
+import React from "react";
+import { Link } from "react-router-dom";
+import "../styles/hero.css";
+export const Hero = ({ name, isNewUser, onLogout }) => {
   return (
-    <>    
-    <div className="hero-author">
-      <h1>{isNewUser ? "Welcome to the News App," : "Welcome back,"} <span>{name}</span> </h1>
-      <p>Manage your News content effectively.</p>
-      <Link to='/add-article'>Write a New Article</Link>
-    </div>
-    </>
-  )
-}
+    <section className="hero-author">
+      <header>
+        <h1 className="hero-title">
+          {isNewUser ? "Welcome to the News App," : "Welcome back,"}
+          <span className="hero-name"> {name}</span>
+        </h1>
+        <p className="hero-subtitle">Manage your news content effectively.</p>
+      </header>
+
+      <div className="hero-actions">
+        <Link to="/add-article" className="btn-primary">
+          Write a New Article
+        </Link>
+        <button onClick={onLogout} className="btn-secondary">
+          Logout
+        </button>
+      </div>
+    </section>
+  );
+};
