@@ -25,9 +25,10 @@ export const AuthProvider = ({ children }) =>  {
     }
   }, [user, token]);
 
-  //Register method 
-  const register = (userData) => {
+  //Register method
+  const register = (userData, authToken) => {
     setUser(userData);
+    setToken(authToken);
   }
 
     // Login method

@@ -59,12 +59,13 @@ function App() {
   //Register
   const handleRegister = async (form) => {
     try {
-      setLoading(true)
+      setLoading(true);
+      
     const response = await registerUser(form);
-    const user = response.data;
+    const { user, token } = response.data;
 
     // Save user & token globally
-    register(user);
+    register(user, token);
 
     console.log("Registration successful:", user);
 
