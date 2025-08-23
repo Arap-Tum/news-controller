@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Loading } from "../component/Loading";
+// import { Loading } from "../component/Loading";
 
 import "../styles/landingPage.css";
 
