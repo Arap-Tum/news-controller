@@ -1,12 +1,9 @@
+import { useState } from "react";
 
-import { useState } from 'react';
+import { Loading } from "../component/Loading";
 
-import { Loading } from '../component/Loading';
-
-
-const Register = ({onRegister, loading}) => {
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
- 
+const Register = ({ onRegister, loading }) => {
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,11 +12,11 @@ const Register = ({onRegister, loading}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     onRegister(form);
+    setForm({ username: "", email: "", password: "" });
   };
 
   return (
     <div className="auth-container">
-      
       {/* Loading Effect  */}
       {loading && <Loading />}
 
@@ -62,7 +59,9 @@ const Register = ({onRegister, loading}) => {
           />
         </div>
 
-        <button type="submit" className="auth-button">Register</button>
+        <button type="submit" className="auth-button">
+          Register
+        </button>
         <p className="auth-link">
           Already have an account? <a href="/">Login</a>
         </p>
