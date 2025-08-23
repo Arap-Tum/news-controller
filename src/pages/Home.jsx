@@ -10,7 +10,7 @@ import { getMyArticles } from "../api/articles";
 
 import "../styles/home.css";
 
-export const Home = ({ onLogout }) => {
+export const Home = ({ onLogout, loading }) => {
   const { user } = useAuth(); // Get user from context
 
   const [articles, setArticles] = React.useState([]);
@@ -47,7 +47,7 @@ export const Home = ({ onLogout }) => {
         {/* Articles Section */}
         <section className="authored-news">
           <div className="articles-wrapper">
-            <ListOfNews articles={articles} />
+            <ListOfNews articles={articles} loading={loading} />
           </div>
         </section>
       </div>

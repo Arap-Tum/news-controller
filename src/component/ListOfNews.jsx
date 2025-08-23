@@ -1,12 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/listArticles.css";
+import { Loading } from "./Loading";
 
-export const ListOfNews = ({ articles }) => {
+export const ListOfNews = ({ articles, loading }) => {
   // ✅ Sort by createdAt for consistency
   const sortedArticles = [...articles].sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="articles-container">
