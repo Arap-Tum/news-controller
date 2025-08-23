@@ -20,7 +20,9 @@
   filter: blur(120px);
   opacity: 0.4;
   animation: float 10s ease-in-out infinite;
+  z-index: -1; /* 👈 ensures background stays behind form */
 }
+
 .auth-container::after {
   right: 10%;
   bottom: 10%;
